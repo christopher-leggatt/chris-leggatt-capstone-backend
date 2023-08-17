@@ -6,7 +6,8 @@ exports.up = function (knex) {
       .references("id")
       .inTable("products")
       .onDelete("CASCADE");
-    table.enu("type", ["high_cbd", "hybrid"]).notNullable();
+    table.integer("quantity");
+    table.enu("type", ["high_cbd", "hybrid", "sativa", "indica"]).notNullable();
     table.float("thc");
     table.float("cbd");
   });

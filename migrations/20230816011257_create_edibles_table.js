@@ -15,10 +15,10 @@ exports.up = function (knex) {
         "hard_candy",
       ])
       .notNullable();
-    table.enu("weight", ["1g", "2g"]).notNullable();
+    table.integer("quantity");
     table.enu("type", ["high_cbd", "hybrid", "sativa", "indica"]).notNullable();
     table.float("thc");
-    table.float("cbd");   
+    table.float("cbd");
   });
 };
 
