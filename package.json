@@ -8,7 +8,8 @@
     "migrate": "knex migrate:latest",
     "migrate:down": "knex migrate:down",
     "migrate:rollback": "knex migrate:rollback",
-    "seed": "knex seed:run"
+    "seed": "knex seed:run",
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",

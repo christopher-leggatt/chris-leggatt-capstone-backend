@@ -4,7 +4,7 @@ exports.up = function (knex) {
     table
       .uuid("product_id")
       .references("id")
-      .inTable("flower")
+      .inTable("products")
       .onDelete("CASCADE");
     table
       .uuid("effect_id")
