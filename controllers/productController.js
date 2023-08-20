@@ -3,21 +3,63 @@ const query = require("express");
 const productModel = require("../models/productModel");
 
 exports.index = async (req, res) => {
-  const page = req.query.page;
-  const limit = req.query.limit;
-    try {
-        const { products, totalCount } = await productModel.getAllProducts(page, limit);
-        res.status(200).json({ products, totalCount });
-    } catch (err) {
-        res.status(400).send(`Error retrieving Products ${err}`);
-    }
-}
+  const { page, limit } = req.query;
+  try {
+    const { products, totalCount } = await productModel.listAllProduct(
+      page,
+      limit
+    );
+    res.status(200).json({ products, totalCount });
+  } catch (err) {
+    res.status(400).send(`Error retrieving Products ${err}`);
+  }
+};
 
-exports.getProductCategory = async (req, res) => {
-  const sortBy = req.query.sort_by;
-  let orderBy = req.query.order_by;
-  const searchQuery = req.query.s;
-  const category = req.params.category;
+exports.createProductsList = async (req, res) => {
+  const productList = req.body;
+  try {
+    const products = await productModel.createProductList(productList);
+    res.status(201).json(products[0]);
+  } catch (err) {
+    res.status(400).send(`Error adding Products ${err}`);
+  }
+};
+
+exports.showProductsItem = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const product = await productModel.showProductItem(id);
+    res.status(200).json(product);
+  } catch (err) {
+    res.status(400).send(`Error retrieving Product ${id}: ${err}`);
+  }
+};
+
+exports.editProductsItem = async (req, res) => {
+  const { id } = req.params;
+  const { body } = req;
+  try {
+    const product = await productModel.editProductItem(id, body);
+    res.status(200).json(product);
+  } catch (err) {
+    res.status(400).send(`Error updating Product ${id}: ${err}`);
+  }
+};
+
+exports.deleteProductsItem = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const product = await productModel.deleteProductItem(id);
+    res.status(204).json(product);
+  } catch (err) {
+    res.status(400).send(`Error deleting Product ${id}: ${err}`);
+  }
+};
+
+exports.listCategorizedProducts = async (req, res) => {
+  const { sortBy, orderBy, s: searchQuery }= req.query;
+  const { category } = req.params;
 
   try {
     let products;
@@ -25,36 +67,16 @@ exports.getProductCategory = async (req, res) => {
       if (!orderBy) {
         orderBy = "asc";
       }
-      products = await productModel.getSortedProducts(sortBy, orderBy);
+      products = await productModel.listSortedProducts(sortBy, orderBy);
       res.status(200).json(products);
     } else if (searchQuery) {
-      products = await productModel.getSearchedProducts(searchQuery);
+      products = await productModel.listSearchedProducts(searchQuery);
       res.status(200).json(products);
     } else {
-      products = await productModel.getCategorizedProducts(category);
+      products = await productModel.listCategorizedProduct(category);
       res.status(200).json(products);
     }
   } catch (err) {
     res.status(400).send(`Error retrieving Products ${err}`);
   }
-};
-
-exports.postProductList = async () => {
-  try {
-  } catch (err) {}
-};
-
-exports.getProductItem = async () => {
-  try {
-  } catch (err) {}
-};
-
-exports.editProductItem = async () => {
-  try {
-  } catch (err) {}
-};
-
-exports.deleteProductItem = async () => {
-  try {
-  } catch (err) {}
 };

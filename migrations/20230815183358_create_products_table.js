@@ -2,7 +2,7 @@ exports.up = function (knex) {
     return knex.schema.createTable("products", (table) => {
       table.uuid("id").primary();
       table.string("name").unique().notNullable();
-      table.string("brand").unique().notNullable();
+      table.string("brand").notNullable();
       table.enu("category", ["flower", "prerolls", "vaporizers", "concentrates", "edibles", "seeds", "topicals"]);
       table.string('subcategory').notNullable();
       table.string('image_url_primary').notNullable();

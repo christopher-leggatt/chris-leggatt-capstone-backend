@@ -4,14 +4,14 @@ const productController = require("../controllers/productController");
 router
   .route("/")
   .get(productController.index)
-  .post(productController.postProductList);
+  .post(productController.createProductsList);
 
 router
   .route("/:id")
-  .get(productController.getProductItem)
-  .put(productController.editProductItem)
-  .delete(productController.deleteProductItem);
+  .get(productController.showProductsItem)
+  .put(productController.editProductsItem)
+  .delete(productController.deleteProductsItem);
 
-router.route("/category/:category").get(productController.getProductCategory);
+router.route("/category/:category").get(productController.listCategorizedProducts);
 
 module.exports = router;

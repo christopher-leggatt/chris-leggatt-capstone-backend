@@ -1,7 +1,7 @@
 const knex = require("knex")(require("../knexfile"));
-const { getColumnsForTable } = require("../utils/utils");
+const { v4: uuidv4 } = require("uuid");
 
-exports.getAllProducts = async (page, limit) => {
+exports.listAllProduct = async (page, limit) => {
   try {
     const itemsPerPage = limit || 10;
     const offset = (page - 1) * itemsPerPage || 0;
@@ -20,7 +20,52 @@ exports.getAllProducts = async (page, limit) => {
   }
 };
 
-exports.getCategorizedProducts = async (category) => {
+exports.createProductList = async (productList) => {
+  const productsWithIds = productList.map((product) => ({
+    id: uuidv4(),
+    ...product,
+  }));
+
+  try {
+    const ids = await knex("products").insert(productsWithIds);
+
+    return ids;
+  } catch (err) {
+    throw new Error(`Error creating Products: ${err}`);
+  }
+};
+
+exports.showProductItem = async (id) => {
+  try {
+    const product = await knex("products").where({ id: id }).select();
+
+    return product;
+  } catch (err) {
+    throw new Error(`Error retrieving Product: ${err}`);
+  }
+};
+
+exports.editProductItem = async (id, body) => {
+  try {
+    const product = await knex("products").where({ id: id }).update(body);
+
+    return product;
+  } catch (err) {
+    throw new Error(`Error editing Product: ${err}`);
+  }
+};
+
+exports.deleteProductItem = async (id) => {
+  try {
+    const product = await knex("products").where({ id: id }).del();
+
+    return product;
+  } catch (err) {
+    throw new Error(`Error deleting Product: ${err}`);
+  }
+};
+
+exports.listCategorizedProduct = async (category) => {
   try {
     const products = await knex("products")
       .where("category", "=", category)

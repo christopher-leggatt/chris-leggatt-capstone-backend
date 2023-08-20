@@ -3,13 +3,14 @@ const userController = require("../controllers/userController");
 
 router
   .route("/profile")
-  .get(userController.getUserProfile)
-  .put(userController.editUserProfile);
+  .get(userController.showUsersProfile)
+  .put(userController.editUsersProfile)
+  .delete(userController.deleteUsersProfile);
   
 
 router
   .route("/register")
-  .post(inventoryController.postRegisteredUser);
+  .post(inventoryController.createRegisteredUsers);
 
   router
   .route("/login")
