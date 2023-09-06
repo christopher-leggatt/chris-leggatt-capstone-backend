@@ -14,20 +14,21 @@ exports.seed = async function (knex) {
       brand: productData.brand,
       category: productData.category,
       subcategory: productData.subcategory,
-      image_url_primary: `localhost:5050/assets/images/products/vaporizers/${productData.name
+      image_url: `localhost:5050/assets/images/products/vaporizers/${productData.name
         .replace(/\s+/g, "_")
-        .toLowerCase()}_primary.jpg`,
+        .replace(/'/g, "")
+        .toLowerCase()}.jpg`,
       image_url_description: productData.name,
       product_description: productData.product_description || lorenIpsum,
-      weight: productData.weight,
-      weight_unit: 'g',
+      weight: productData.weight || 100,
+      weight_unit: productData.weight_unit || 'g',
       price: productData.price,
       strain: productData.strain,
       thc: productData.thc,
       cbd: productData.cbd,
       thc_cbd_unit: productData.thc_cbd_unit,
       item_quantity: productData.item_quantity || '1',
-      inventory_quantity: productData.inventory_quantity || Math.floor(Math.random() * 100),
+      inventory_quantity: productData.inventory_quantity || 99,
 
     };
 
