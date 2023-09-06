@@ -67,10 +67,10 @@ exports.listCategorizedProducts = async (req, res) => {
       if (!orderBy) {
         orderBy = "asc";
       }
-      products = await productModel.listSortedProducts(sortBy, orderBy);
+      products = await productModel.listSortedProduct(sortBy, orderBy);
       res.status(200).json(products);
     } else if (searchQuery) {
-      products = await productModel.listSearchedProducts(searchQuery);
+      products = await productModel.listSearchedProduct(searchQuery);
       res.status(200).json(products);
     } else {
       products = await productModel.listCategorizedProduct(category);

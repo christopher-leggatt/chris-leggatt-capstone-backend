@@ -65,6 +65,38 @@ exports.deleteProductItem = async (id) => {
   }
 };
 
+exports.listSortedProduct = async (sortBy, orderBy) => {
+  try {
+    let query = knex("products");
+
+    const products = await query.orderBy(sortBy, orderBy);
+
+    console.log(products);
+
+    return products;
+  } catch (err) {
+    throw new Error(`Error retrieving Products: ${err}`);
+  }
+};
+
+exports.listSearchedProduct = async (searchQuery) => {
+  const searchColumns = ["name", "brand", "subcategory", "strain"];
+
+  try {
+    const query = knex("products");
+    searchColumns.forEach((column) => {
+      query.orWhere(column, "like", `%${searchQuery}%`);
+    });
+    const products = await query.select(...searchColumns);
+
+    console.log(products);
+
+    return products;
+  } catch (err) {
+    throw new Error(`Error retrieving Products: ${err}`);
+  }
+};
+
 exports.listCategorizedProduct = async (category) => {
   try {
     const products = await knex("products")
