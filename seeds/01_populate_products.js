@@ -14,7 +14,7 @@ exports.seed = async function (knex) {
       brand: productData.brand,
       category: productData.category,
       subcategory: productData.subcategory,
-      image_url: `localhost:5050/assets/images/products/vaporizers/${productData.name
+      image_url: `http://localhost:5050/images/products/${productData.name
         .replace(/\s+/g, "_")
         .replace(/'/g, "")
         .toLowerCase()}.jpg`,

@@ -73,7 +73,7 @@ const productsData = [
     thc_cbd_unit: "%",
   },
   {
-    name: "Cherry Jam Shatter ",
+    name: "Cherry Jam Shatter",
     category: "concentrates",
     brand: "Wagners",
     price: 39.95,

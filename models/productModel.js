@@ -1,15 +1,15 @@
 const knex = require("knex")(require("../knexfile"));
 const { v4: uuidv4 } = require("uuid");
 
-exports.listAllProduct = async (page, limit) => {
+exports.listAllProduct = async () => {
   try {
-    const itemsPerPage = limit || 10;
-    const offset = (page - 1) * itemsPerPage || 0;
+    // const itemsPerPage = limit || 10;
+    // const offset = (page - 1) * itemsPerPage || 0;
 
     const products = await knex("products")
-      .select()
-      .limit(itemsPerPage)
-      .offset(offset);
+      .select();
+      // .limit(itemsPerPage)
+      // .offset(offset);
 
     const countResult = await knex("products").count("id as total");
     const totalCount = countResult[0].total;

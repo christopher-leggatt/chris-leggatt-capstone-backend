@@ -3,12 +3,9 @@ const query = require("express");
 const productModel = require("../models/productModel");
 
 exports.index = async (req, res) => {
-  const { page, limit } = req.query;
+  // const { page, limit } = req.query;
   try {
-    const { products, totalCount } = await productModel.listAllProduct(
-      page,
-      limit
-    );
+    const { products, totalCount } = await productModel.listAllProduct();
     res.status(200).json({ products, totalCount });
   } catch (err) {
     res.status(400).send(`Error retrieving Products ${err}`);
