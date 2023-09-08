@@ -1,4 +1,5 @@
 const knex = require("knex")(require("../knexfile"));
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const orderModel = require("../models/orderModel");
 
 exports.createOrdersEntry = async (req, res) => {
