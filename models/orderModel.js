@@ -12,16 +12,16 @@ exports.createOrdersEntry = async (order) => {
 
     return orders;
   } catch (err) {
-    throw new Error(`Error retrieving Products: ${err}`);
+    throw new Error(`Error creating Order: ${err}`);
   }
 };
 
-exports.showUserOrderEntry = async (id) => {
-  try {
-    const order = await knex("orders").where({ user_id: id }).select();
+// exports.showUserOrderEntry = async (id) => {
+//   try {
+//     const order = await knex("orders").where({ user_id: id }).select();
 
-    return order;
-  } catch (err) {
-    throw new Error(`Error retrieving Order: ${err}`);
-  }
-};
+//     return order;
+//   } catch (err) {
+//     throw new Error(`Error retrieving Order: ${err}`);
+//   }
+// };
