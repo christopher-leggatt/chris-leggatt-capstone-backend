@@ -1,9 +1,9 @@
 exports.up = function (knex) {
   return knex.schema.createTable("orders", (table) => {
-    table.increments("id").primary();
+    table.uuid("id").primary();
     table.uuid("user_id").references("id").inTable("users").onDelete("CASCADE");
     table
-      .enu("status", ["pending", "ready", "cancelled", "completed"])
+      .enu("status", ["pending", "ready", "cancelled", "completed"]).defaultTo("pending")
       .notNullable();
     table
       .integer("billing_address_id")
@@ -15,8 +15,10 @@ exports.up = function (knex) {
       .unsigned()
       .references("id")
       .inTable("addresses");
-    table.enu("payment_method", ["cash", "debit", "visa"]);
+    table.enu("payment_method", ["cash", "debit", "visa", "card"]).defaultTo("card");
     table.decimal("price_total");
+    table.json("products"); 
+    table.string("stripe_session_id").unique();
     table.timestamps(true, true);
   });
 };

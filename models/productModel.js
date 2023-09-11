@@ -99,6 +99,7 @@ exports.listSearchedProduct = async (searchQuery) => {
 
 exports.listCategorizedProduct = async (category) => {
   try {
+    console.log(knex("products").where("category", "=", category).toString());
     const products = await knex("products")
       .where("category", "=", category)
       .select("*");

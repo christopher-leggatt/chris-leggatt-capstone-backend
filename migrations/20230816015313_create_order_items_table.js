@@ -1,8 +1,8 @@
 exports.up = function (knex) {
   return knex.schema.createTable("order_items", (table) => {
     table.increments("id");
-    table.integer("order_id").unsigned().references("id").inTable("orders");
-    table.integer("product_id").notNullable();
+    table.uuid("order_id").references("id").inTable("orders").onDelete("CASCADE");
+    table.uuid("product_id").references("id").inTable("products").onDelete("CASCADE");
     table.integer("count").notNullable();
   });
 };
@@ -10,3 +10,4 @@ exports.up = function (knex) {
 exports.down = function (knex) {
   return knex.schema.dropTable("order_items");
 };
+

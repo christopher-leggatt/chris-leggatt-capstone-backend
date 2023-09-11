@@ -1,27 +1,17 @@
 const knex = require("knex")(require("../knexfile"));
 const { v4: uuidv4 } = require("uuid");
 
-exports.createOrdersEntry = async (order) => {
-  const orderEntry = {
+exports.createOrderEntry = async (orderDetails) => {
+  const order = {
     id: uuidv4(),
-    ...order,
+    ...orderDetails,
   };
 
   try {
-    const orders = await knex("orders").insert(orderEntry);
+    const orders = await knex("orders").insert(order);
 
     return orders;
   } catch (err) {
     throw new Error(`Error creating Order: ${err}`);
   }
 };
-
-// exports.showUserOrderEntry = async (id) => {
-//   try {
-//     const order = await knex("orders").where({ user_id: id }).select();
-
-//     return order;
-//   } catch (err) {
-//     throw new Error(`Error retrieving Order: ${err}`);
-//   }
-// };

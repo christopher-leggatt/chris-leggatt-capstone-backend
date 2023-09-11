@@ -3,7 +3,6 @@ const query = require("express");
 const productModel = require("../models/productModel");
 
 exports.index = async (req, res) => {
-  // const { page, limit } = req.query;
   try {
     const { products, totalCount } = await productModel.listAllProduct();
     res.status(200).json({ products, totalCount });
@@ -18,7 +17,7 @@ exports.createProductsList = async (req, res) => {
     const products = await productModel.createProductList(productList);
     res.status(201).json(products[0]);
   } catch (err) {
-    res.status(400).send(`Error adding Products ${err}`);
+    res.status(400).send(`Error adding Products: ${err}`);
   }
 };
 
@@ -28,7 +27,7 @@ exports.showProductsItem = async (req, res) => {
     const product = await productModel.showProductItem(id);
     res.status(200).json(product);
   } catch (err) {
-    res.status(400).send(`Error retrieving Product ${id}: ${err}`);
+    res.status(400).send(`Error retrieving Product: ${id}: ${err}`);
   }
 };
 
@@ -39,7 +38,7 @@ exports.editProductsItem = async (req, res) => {
     const product = await productModel.editProductItem(id, body);
     res.status(200).json(product);
   } catch (err) {
-    res.status(400).send(`Error updating Product ${id}: ${err}`);
+    res.status(400).send(`Error updating Product: ${id}: ${err}`);
   }
 };
 
@@ -50,12 +49,12 @@ exports.deleteProductsItem = async (req, res) => {
     const product = await productModel.deleteProductItem(id);
     res.status(204).json(product);
   } catch (err) {
-    res.status(400).send(`Error deleting Product ${id}: ${err}`);
+    res.status(400).send(`Error deleting Product: ${id}: ${err}`);
   }
 };
 
 exports.listCategorizedProducts = async (req, res) => {
-  const { sortBy, orderBy, s: searchQuery }= req.query;
+  const { sortBy, orderBy, s: searchQuery } = req.query;
   const { category } = req.params;
 
   try {
@@ -74,6 +73,6 @@ exports.listCategorizedProducts = async (req, res) => {
       res.status(200).json(products);
     }
   } catch (err) {
-    res.status(400).send(`Error retrieving Products ${err}`);
+    res.status(400).send(`Error retrieving Products: ${err}`);
   }
 };
