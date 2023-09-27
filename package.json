@@ -10,7 +10,7 @@
     "migrate:rollback": "knex migrate:rollback",
     "seed": "knex seed:run",
     "dev": "nodemon index.js",
-    "start": "npm install && npm run migrate && npm run seed && node index.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
