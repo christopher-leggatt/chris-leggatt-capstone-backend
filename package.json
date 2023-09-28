@@ -12,9 +12,10 @@
     "dev": "nodemon index.js",
     "start": "node index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christopher-leggatt/chris-leggatt-capstone-frontend.git"
+  },
   "dependencies": {
     "axios": "^1.4.0",
     "casual": "^1.6.2",
@@ -29,6 +30,9 @@
     "passport": "^0.6.0",
     "uuid": "^9.0.0"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.0.1"
   }
