@@ -1,4 +1,5 @@
-const knex = require("knex")(require("../knexfile"));
+// const knex = require("knex")(require("../knexfile"));
+const knex = require("../db");
 const { v4: uuidv4 } = require("uuid");
 
 exports.listAllProduct = async () => {

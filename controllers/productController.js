@@ -1,4 +1,5 @@
-const knex = require("knex")(require("../knexfile.js"));
+// const knex = require("knex")(require("../knexfile.js"));
+const knex = require("../db");
 const query = require("express");
 const productModel = require("../models/productModel");
 
