@@ -5,7 +5,7 @@ exports.up = function (knex) {
     table.string("email").unique().notNullable();
     table.string("password", 128).notNullable();
     table.string("phone");
-    table.boolean("is_admin");
+    table.enu("role", ["member", "guest", "admin"]).defaultTo("guest");
     table.timestamps(true, true);
   });
 };

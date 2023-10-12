@@ -1,10 +1,10 @@
 const router = require("express").Router();
 const authController = require("../controllers/authController");
 
-router.route("/google")
-.post(authController.postAuthGoogle);
+router.route("/auth/login")
+.post(authController.createAuthLogin);
 
-router.route("/facebook")
-.post(authController.postAuthFacebook);
+router.route("/auth/signup")
+.post(authController.createAuthSignup);
 
 module.exports = router;
