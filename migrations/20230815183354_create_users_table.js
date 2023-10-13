@@ -3,7 +3,7 @@ exports.up = function (knex) {
     table.uuid("id").primary();
     table.string("username").unique().notNullable();
     table.string("email").unique().notNullable();
-    table.string("password", 128).notNullable();
+    table.string("password", 60).notNullable();
     table.string("phone");
     table.enu("role", ["member", "guest", "admin"]).defaultTo("guest");
     table.timestamps(true, true);
