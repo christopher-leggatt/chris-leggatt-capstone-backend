@@ -1,5 +1,5 @@
 const uuidv4 = require("uuid").v4;
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 exports.seed = function (knex) {
   return knex("users")

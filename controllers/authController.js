@@ -1,21 +1,31 @@
-// const knex = require('knex')(require('../knexfile'));
-const environment = process.env.NODE_ENV || "development";
-const config = require("./knexfile")[environment];
-const knex = require("knex")(config);
+const knex = require("../db");
 const authModel = require("../models/authModel");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 exports.createAuthsLogin = async (req, res) => {
-  const { username, password } = req.body;
+  console.log(
+    "🚀 ~ file: authController.js:7 ~ exports.createAuthsLogin= ~ req.body:",
+    req.body
+  );
+  const { login, password } = req.body;
 
   try {
-    const user = await authModel.findUserByUsername(username);
+    const user = await authModel.findUserByLogin(login);
+    console.log(
+      "🚀 ~ file: authController.js:11 ~ exports.createAuthsLogin= ~ user:",
+      user
+    );
     if (!user) {
       return res.status(401).json({ message: "Unauthorized" });
     }
     const isPasswordValid = await authModel.comparePassword(
       password,
       user.password
+    );
+    console.log(
+      "🚀 ~ file: authController.js:19 ~ exports.createAuthsLogin= ~ isPasswordValid:",
+      isPasswordValid
     );
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Unauthorized" });
@@ -31,15 +41,45 @@ exports.createAuthsLogin = async (req, res) => {
   }
 };
 
-exports.showUsersDetails = async (req, res) => {
+exports.showUsersProfile = async (req, res) => {
   try {
-    const userId = req.userId;
-    const userDetails = await authModel.showUserDetails(userId);
+    const { userId } = req;
+    const userProfile = await authModel.showUserProfile(userId);
 
-    res.status(200).json({ userDetails });
+    res.status(200).json({ userProfile });
   } catch (err) {
     console.error(err);
     res.status(500).send(`Server Error: ${err}`);
+  }
+};
+
+// exports.showUsersProfile = async (req, res) => {
+//   const { id } = req.params;
+//   try {
+//     const user = await authModel.showUserProfile(id);
+//     res.status(200).json(user);
+//   } catch (err) {
+//     res.status(400).send(`Error getting User ${id}: ${err}`);
+//   }
+// };
+
+exports.editUsersProfile = async (req, res) => {
+  const { userId, body } = req;
+  try {
+    const user = await authModel.editUserProfile(userId, body);
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(400).send(`Error updating user ${userId}: ${err}`);
+  }
+};
+
+exports.deleteUsersProfile = async (req, res) => {
+  const { userId } = req;
+  try {
+    const user = await authModel.deleteUserItem(userId);
+    res.status(204).json(user);
+  } catch (err) {
+    res.status(400).send(`Error deleting User ${userId}: ${err}`);
   }
 };
 
