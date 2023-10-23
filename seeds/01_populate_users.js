@@ -37,7 +37,7 @@ exports.seed = function (knex) {
         },
         {
           id: uuidv4(),
-          username: "admin",
+          username: "Test Admin",
           email: "admin@example.com",
           password: await hashPassword("adminpass"),
           phone: "345-678-9012",
