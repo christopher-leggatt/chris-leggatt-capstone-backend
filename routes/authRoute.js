@@ -4,10 +4,16 @@ const { verifyJWT } = require("../middleware");
 
 router.route("/login").post(authController.createAuthsLogin);
 
+router.route('/refresh').post(verifyJWT, authController.refreshToken);
+
+// ... other routes ...
+
+router.route('/logout').post(verifyJWT, authController.logout);
+
+
+
 // router.route("/signup")
 // .post(authController.createAuthSignup);
-
-// router.route("/protected").get(verifyJWT, authController.showUsersDetails);
 
 router
   .route("/profile")

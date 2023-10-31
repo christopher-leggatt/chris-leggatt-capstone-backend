@@ -11,6 +11,19 @@ exports.comparePassword = async (plainPassword, hashedPassword) => {
   return bcrypt.compare(plainPassword, hashedPassword);
 };
 
+exports.storeRefreshToken = async (userId, refreshToken) => {
+  return knex('refresh_tokens').insert({ user_id: userId, token: refreshToken });
+};
+
+exports.validateRefreshToken = async (token) => {
+  const result = await knex('refresh_tokens').where({ token }).first();
+  return !!result;
+};
+
+exports.revokeRefreshToken = async (token) => {
+  return knex('refresh_tokens').where({ token }).del();
+};
+
 exports.findUserByLogin = async (login) => {
   let user = knex("users").where({ email: login }).first();
   if (!user) {

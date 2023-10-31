@@ -30,16 +30,53 @@ exports.createAuthsLogin = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Unauthorized" });
     }
-    const token = jwt.sign(
-      { userId: user.id, role: user.role },
-      process.env.JSON_SECRET_KEY,
-      { expiresIn: "1h" }
-    );
-    res.status(200).json({ token, userId: user.id, role: user.role });
+
+    if (user && isPasswordValid) {
+      const accessToken = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '120m' }); 
+      const refreshToken = jwt.sign({ id: user.id, role: user.role }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' }); 
+  
+      await authModel.storeRefreshToken(user.id, refreshToken);
+  
+      res.status(200).json({ accessToken, refreshToken, userId: user.id, role: user.role });
+    }
+    // const token = jwt.sign(
+    //   { userId: user.id, role: user.role },
+    //   process.env.JWT_SECRET,
+    //   { expiresIn: "1h" }
+    // );
+    // res.status(200).json({ token, userId: user.id, role: user.role });
   } catch (err) {
     res.status(400).send(`Error logging in: ${err}`);
   }
 };
+
+exports.refreshToken = async (req, res) => {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    return res.status(403).json({ error: 'Refresh token is required!' });
+  }
+
+  const validToken = await authModel.validateRefreshToken(refreshToken);
+  if (!validToken) {
+    return res.status(403).json({ error: 'Invalid refresh token!' });
+  }
+
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ error: 'Token is not valid!' });
+
+    const accessToken = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '120m' });
+    res.json({ accessToken });
+  });
+};
+
+exports.logout = async (req, res) => {
+  const { refreshToken } = req.body;
+  await authModel.revokeRefreshToken(refreshToken);
+  res.status(200).json({ message: 'Logged out successfully' });
+};
+
+
 
 exports.showUsersProfile = async (req, res) => {
   try {
