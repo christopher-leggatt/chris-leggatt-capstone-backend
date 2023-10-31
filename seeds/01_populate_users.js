@@ -1,33 +1,47 @@
 const uuidv4 = require("uuid").v4;
+const bcrypt = require("bcryptjs");
 
 exports.seed = function (knex) {
   return knex("users")
     .del()
-    .then(function () {
+    .then(async function () {
+      const hashPassword = async (password) => {
+        const saltRounds = 10;
+        return await bcrypt.hash(password, saltRounds);
+      };
+
       return knex("users").insert([
+        {
+          id: uuidv4(),
+          username: "Test User",
+          email: "testuser@example.com",
+          password: await hashPassword("12345"),
+          phone: "123-456-7890",
+          role: "member",
+        },
         {
           id: uuidv4(),
           username: "user1",
           email: "user1@example.com",
-          password: "password1", 
+          password: await hashPassword("password1"),
           phone: "123-456-7890",
-          is_admin: false,
+          role: "member",
         },
         {
           id: uuidv4(),
           username: "user2",
           email: "user2@example.com",
-          password: "password2", 
+          password: await hashPassword("password2"),
           phone: "234-567-8901",
-          is_admin: false,
+          role: "member",
         },
         {
           id: uuidv4(),
-          username: "admin",
+          username: "Test Admin",
           email: "admin@example.com",
-          password: "adminpass", 
+          password: await hashPassword("adminpass"),
           phone: "345-678-9012",
-          is_admin: true,
+          role: "admin",
         },
       ]);
     });
