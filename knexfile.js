@@ -2,7 +2,6 @@ require('dotenv').config();
 
 module.exports = {
   development: {
-    host: process.env.DB_HOST,
     client: 'mysql',
     connection: {
       host: '127.0.0.1', 
@@ -11,6 +10,16 @@ module.exports = {
       password: process.env.DB_LOCAL_PASSWORD,
       database: process.env.DB_LOCAL_DBNAME,
       charset: 'utf8'
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'knex_migrations'
+    },
+    seeds: {
+      directory: './seeds'
     }
   },
 
@@ -37,4 +46,3 @@ module.exports = {
     }
   }
 };
-
