@@ -10,7 +10,8 @@
     "migrate:rollback": "knex migrate:rollback",
     "seed": "knex seed:run",
     "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "npm install && npx knex migrate:latest --env production && npx knex seed:run --env production"
   },
   "repository": {
     "type": "git",
