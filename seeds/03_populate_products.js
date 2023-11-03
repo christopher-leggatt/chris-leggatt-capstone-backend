@@ -1,5 +1,7 @@
 const { productsData } = require("./seed_data/seed_data_products");
 const uuidv4 = require("uuid").v4;
+const dotenv = require('dotenv');
+const { BACKEND_URL } = process.env;
 
 exports.seed = async function (knex) {
   const lorenIpsum =
@@ -14,7 +16,7 @@ exports.seed = async function (knex) {
       brand: productData.brand,
       category: productData.category,
       subcategory: productData.subcategory,
-      image_url: `http://localhost:5050/images/products/${productData.name
+      image_url: `${BACKEND_URL}/images/products/${productData.name
         .replace(/\s+/g, "_")
         .replace(/'/g, "")
         .toLowerCase()}.jpg`,

@@ -36,6 +36,10 @@ app.listen(PORT, () => {
   console.log(`🚀 App listening at ${BACKEND_URL}:${PORT}`);
 });
 
+app.get("/test", (req, res) => {
+  return res.json({ message: "Test successful" });
+});
+
 app.get("/", (req, res) => {
   return res.send("Test successful");
 });
